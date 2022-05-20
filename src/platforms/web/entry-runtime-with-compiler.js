@@ -1,5 +1,5 @@
 /* @flow */
-
+// 该文件主要增加了编译功能
 import config from 'core/config'
 import { warn, cached } from 'core/util/index'
 import { mark, measure } from 'core/util/perf'
@@ -13,15 +13,18 @@ const idToTemplate = cached(id => {
   const el = query(id)
   return el && el.innerHTML
 })
-
+// 保留 Vue 实例的 $mount方法
 const mount = Vue.prototype.$mount
+// 重写了$mount方法
 Vue.prototype.$mount = function (
   el?: string | Element,
   hydrating?: boolean
 ): Component {
+  // 获取el对象
   el = el && query(el)
 
   /* istanbul ignore if */
+  // el不能是body和html
   if (el === document.body || el === document.documentElement) {
     process.env.NODE_ENV !== 'production' && warn(
       `Do not mount Vue to <html> or <body> - mount to normal elements instead.`
@@ -31,8 +34,11 @@ Vue.prototype.$mount = function (
 
   const options = this.$options
   // resolve template/el and convert to render function
+
+  // 将template转为render
   if (!options.render) {
     let template = options.template
+    // 如果模板存在
     if (template) {
       if (typeof template === 'string') {
         if (template.charAt(0) === '#') {
@@ -79,6 +85,7 @@ Vue.prototype.$mount = function (
       }
     }
   }
+  // 调用mount方法，渲染DOM
   return mount.call(this, el, hydrating)
 }
 
@@ -95,7 +102,8 @@ function getOuterHTML (el: Element): string {
     return container.innerHTML
   }
 }
-
+// 注册了compile方法，可以直接使用Vue.compile()将template转换成render函数
+// https://cn.vuejs.org/v2/api/#Vue-compile
 Vue.compile = compileToFunctions
 
 export default Vue

@@ -1,5 +1,5 @@
 /* @flow */
-
+// 该文件注册了平台相关的指令和组件，定义了$mount方法
 import Vue from 'core/index'
 import config from 'core/config'
 import { extend, noop } from 'shared/util'
@@ -27,7 +27,10 @@ Vue.config.getTagNamespace = getTagNamespace
 Vue.config.isUnknownElement = isUnknownElement
 
 // install platform runtime directives & components
+// 注册了与平台相关的指令和组件(extend是把第二个参数的对象的属性和方法复制到第一个参数对象)
+// platformDirectives是v-model和v-show
 extend(Vue.options.directives, platformDirectives)
+// platformComponents是Transition和TransitionGroup
 extend(Vue.options.components, platformComponents)
 
 // install platform patch function
