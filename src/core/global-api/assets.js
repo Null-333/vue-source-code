@@ -7,12 +7,16 @@ export function initAssetRegisters (Vue: GlobalAPI) {
   /**
    * Create asset registration methods.
    */
+  // ASSET_TYPES 包括了[directive, component, filter]
   ASSET_TYPES.forEach(type => {
     Vue[type] = function (
       id: string,
       definition: Function | Object
     ): Function | Object | void {
       if (!definition) {
+        // 没有definition是在取值
+        // 全局定义的directive, component, filter存放在
+        // Vue.options中的
         return this.options[type + 's'][id]
       } else {
         /* istanbul ignore if */
@@ -21,11 +25,13 @@ export function initAssetRegisters (Vue: GlobalAPI) {
         }
         if (type === 'component' && isPlainObject(definition)) {
           definition.name = definition.name || id
+          // 把组件的配置转为组件构造函数
           definition = this.options._base.extend(definition)
         }
         if (type === 'directive' && typeof definition === 'function') {
           definition = { bind: definition, update: definition }
         }
+        // 全局注册，存储资源并赋值
         this.options[type + 's'][id] = definition
         return definition
       }

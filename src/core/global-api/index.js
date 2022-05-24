@@ -68,9 +68,12 @@ export function initGlobalAPI (Vue: GlobalAPI) {
   Vue.options._base = Vue
   // 设置 keep-alive 组件
   extend(Vue.options.components, builtInComponents)
-  // 注册 Vue.use()
+  // 注册 Vue.use()，用来注册插件
   initUse(Vue)
+  // 注册 Vue.mixin()，实现全局mixin
   initMixin(Vue)
+  // 注册 Vue.extend() 基于传入的options返回一个组件的构造函数，在做自定义组件的时候用到
   initExtend(Vue)
+  // 注册 Vue.directive(), Vue.component(), Vue.filter()
   initAssetRegisters(Vue)
 }
