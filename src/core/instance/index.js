@@ -1,4 +1,5 @@
 // 该文件创建了Vue的构造函数，设置Vue实例的成员
+// 即：在Vue的原型对象上添加了成员
 import { initMixin } from './init'
 import { stateMixin } from './state'
 import { renderMixin } from './render'
@@ -22,8 +23,12 @@ function Vue (options) {
 initMixin(Vue)
 // 注册 vm 的 $data/$props/$set/$delete/$watch（在Vue的原型上注册）
 stateMixin(Vue)
+// 初始化事件相关方法
+// $on/$once/$off/$emit
 eventsMixin(Vue)
+// _update/$forceUpdate/$destroy
 lifecycleMixin(Vue)
+// $nextTick/_render
 renderMixin(Vue)
 
 export default Vue
