@@ -18,7 +18,7 @@ export function initUse (Vue: GlobalAPI) {
       // 如果plugin是一个对象必须有install方法，这里会调用
       plugin.install.apply(plugin, args)
     } else if (typeof plugin === 'function') {
-      // 如果直接传入的function，那直接调用
+      // 如果直接传入的function，直接调用
       plugin.apply(null, args)
     }
     // 将该插件存储到this._installedPlugins中，可判断是否重复定义
