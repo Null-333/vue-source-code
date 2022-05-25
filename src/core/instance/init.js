@@ -14,6 +14,7 @@ let uid = 0
 
 export function initMixin (Vue: Class<Component>) {
   // 给Vue的实例添加了_init() 方法
+  // 合并 options / 初始化操作
   Vue.prototype._init = function (options?: Object) {
     const vm: Component = this
     // a uid
@@ -30,6 +31,7 @@ export function initMixin (Vue: Class<Component>) {
     // a flag to avoid this being observed
     vm._isVue = true
     // merge options
+    // 合并 options，将Vue构造函数的options与实例传入的options合并到$options
     if (options && options._isComponent) {
       // optimize internal component instantiation
       // since dynamic options merging is pretty slow, and none of the
@@ -50,13 +52,22 @@ export function initMixin (Vue: Class<Component>) {
     }
     // expose real self
     vm._self = vm
+    // vm 的生命周期相关变量初始化
+    // $children/$parent/$root/$refs
     initLifecycle(vm)
+    // vm 的事件监听初始化
     initEvents(vm)
+    // 初始化render函数
+    // $slots/$scopedSlots/_c/$createElement/$attrs/$listeners
     initRender(vm)
+    // beforeCreate 生命钩子的回调
     callHook(vm, 'beforeCreate')
+    // 
     initInjections(vm) // resolve injections before data/props
     initState(vm)
+    // 初始化provide
     initProvide(vm) // resolve provide after data/props
+    // created 生命钩子的回调
     callHook(vm, 'created')
 
     /* istanbul ignore if */

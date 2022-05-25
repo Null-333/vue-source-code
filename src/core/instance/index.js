@@ -18,7 +18,7 @@ function Vue (options) {
   }
   this._init(options)
 }
-// 一下方法分别给Vue原型注册了方法或属性
+// 以下方法分别给Vue原型注册了方法或属性
 // 注册 vm 的 _init方法（在Vue的原型上注册）
 initMixin(Vue)
 // 注册 vm 的 $data/$props/$set/$delete/$watch（在Vue的原型上注册）
@@ -28,6 +28,7 @@ stateMixin(Vue)
 eventsMixin(Vue)
 // _update/$forceUpdate/$destroy
 lifecycleMixin(Vue)
+// 混入render
 // $nextTick/_render
 renderMixin(Vue)
 
