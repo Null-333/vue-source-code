@@ -62,8 +62,9 @@ export function initMixin (Vue: Class<Component>) {
     initRender(vm)
     // beforeCreate 生命钩子的回调
     callHook(vm, 'beforeCreate')
-    // 
+    // 把inject的成员注入到vm实例
     initInjections(vm) // resolve injections before data/props
+    // 初始化vm的_props/methods/_data/computed/watch
     initState(vm)
     // 初始化provide
     initProvide(vm) // resolve provide after data/props
@@ -76,7 +77,6 @@ export function initMixin (Vue: Class<Component>) {
       mark(endTag)
       measure(`vue ${vm._name} init`, startTag, endTag)
     }
-
     if (vm.$options.el) {
       vm.$mount(vm.$options.el)
     }
