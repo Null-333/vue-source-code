@@ -100,10 +100,13 @@ export default class Watcher {
    * Evaluate the getter, and re-collect dependencies.
    */
   get () {
+    // 把当前的watcher存入stack
+    // 每个组件都对应一个watcher
     pushTarget(this)
     let value
     const vm = this.vm
     try {
+      // 真正调用updateComponent的地方
       value = this.getter.call(vm, vm)
     } catch (e) {
       if (this.user) {

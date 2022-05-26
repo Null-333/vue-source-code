@@ -187,6 +187,8 @@ export function mountComponent (
       measure(`vue ${name} patch`, startTag, endTag)
     }
   } else {
+    // _render()的作用是生成虚拟dom
+    // _update是将虚拟dom转为真实dom挂载
     updateComponent = () => {
       vm._update(vm._render(), hydrating)
     }
