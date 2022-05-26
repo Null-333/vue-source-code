@@ -107,11 +107,19 @@ function copyAugment (target: Object, src: Object, keys: Array<string>) {
  * returns the new observer if successfully observed,
  * or the existing observer if the value already has one.
  */
+/**
+ * 试图创建一个observer的实例给value
+ * 如果成功创建就返回新创建的observer
+ * 如果value已经是一个observer，就返回已经存在的observer
+ */
+
 export function observe (value: any, asRootData: ?boolean): Observer | void {
+  // 判断value是否是对象
   if (!isObject(value) || value instanceof VNode) {
     return
   }
   let ob: Observer | void
+  // 如果value中有__ob__（observer对象）属性结束
   if (hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {
     ob = value.__ob__
   } else if (
@@ -121,6 +129,7 @@ export function observe (value: any, asRootData: ?boolean): Observer | void {
     Object.isExtensible(value) &&
     !value._isVue
   ) {
+    // 创建了一个 Observer 对象
     ob = new Observer(value)
   }
   if (asRootData && ob) {

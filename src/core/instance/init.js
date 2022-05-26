@@ -65,6 +65,7 @@ export function initMixin (Vue: Class<Component>) {
     // 把inject的成员注入到vm实例
     initInjections(vm) // resolve injections before data/props
     // 初始化vm的_props/methods/_data/computed/watch
+    // 初始化vm的状态
     initState(vm)
     // 初始化provide
     initProvide(vm) // resolve provide after data/props

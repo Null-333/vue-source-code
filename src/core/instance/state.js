@@ -52,6 +52,7 @@ export function initState (vm: Component) {
   if (opts.props) initProps(vm, opts.props)
   if (opts.methods) initMethods(vm, opts.methods)
   if (opts.data) {
+    // 响应式的入口
     initData(vm)
   } else {
     observe(vm._data = {}, true /* asRootData */)
