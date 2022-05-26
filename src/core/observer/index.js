@@ -35,6 +35,7 @@ export function toggleObserving (value: boolean) {
  * collect dependencies and dispatch updates.
  */
 export class Observer {
+  // 观察的对象
   value: any;
   dep: Dep;
   vmCount: number; // number of vms that have this object as root $data
@@ -43,7 +44,11 @@ export class Observer {
     this.value = value
     this.dep = new Dep()
     this.vmCount = 0
+    // 将Observer实例挂载到观察对象的__ob__属性上
+    // 这里def没有传第四个参数：enumerable，说明__ob__这个属性时不能枚举的
+    // 原因是因为后面要遍历value的属性，并设置为getter和setter，而不希望把__ob__遍历出来
     def(value, '__ob__', this)
+    // 数组的响应式的处理
     if (Array.isArray(value)) {
       if (hasProto) {
         protoAugment(value, arrayMethods)
