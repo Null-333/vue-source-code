@@ -34,6 +34,9 @@ export function toggleObserving (value: boolean) {
  * object's property keys into getter/setters that
  * collect dependencies and dispatch updates.
  */
+// Observer类会附加到每一个被观察的对象
+// 一旦附加，就会把目标对象的每一个属性转为getter/setter
+// 用来收集依赖和更新依赖
 export class Observer {
   // 观察的对象
   value: any;
@@ -66,6 +69,7 @@ export class Observer {
    * getter/setters. This method should only be called when
    * value type is Object.
    */
+  // 将每一个属性转换成getter/setter
   walk (obj: Object) {
     const keys = Object.keys(obj)
     for (let i = 0; i < keys.length; i++) {
@@ -146,6 +150,7 @@ export function observe (value: any, asRootData: ?boolean): Observer | void {
 /**
  * Define a reactive property on an Object.
  */
+// 为一个对象定义响应式的属性
 export function defineReactive (
   obj: Object,
   key: string,
@@ -154,24 +159,28 @@ export function defineReactive (
   shallow?: boolean
 ) {
   const dep = new Dep()
-
+  // 获取 obj 的属性描述符
   const property = Object.getOwnPropertyDescriptor(obj, key)
+  // 对象的configurable为false，则该对象的属性描述不能被改变，属性不能被删除
   if (property && property.configurable === false) {
     return
   }
-
   // cater for pre-defined getter/setters
+  // 获取预定义的存取器函数
+  // 用户可能自己设置了get和set，这里需要获取用户自定义的get和set
   const getter = property && property.get
   const setter = property && property.set
   if ((!getter || setter) && arguments.length === 2) {
     val = obj[key]
   }
-
+  // 判断是否递归观察子对象，并将子对象的属性转换成getter/setter，返回子观察对象
   let childOb = !shallow && observe(val)
   Object.defineProperty(obj, key, {
     enumerable: true,
     configurable: true,
     get: function reactiveGetter () {
+      // 如果预定义的getter存在，则value等于getter调用的返回值
+      // 否则直接赋值属性值
       const value = getter ? getter.call(obj) : val
       if (Dep.target) {
         dep.depend()
