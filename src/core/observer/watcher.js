@@ -133,8 +133,10 @@ export default class Watcher {
     const id = dep.id
     if (!this.newDepIds.has(id)) {
       this.newDepIds.add(id)
+      // 将dep添加到watcher的newDeps中
       this.newDeps.push(dep)
       if (!this.depIds.has(id)) {
+        // 将watcher添加到dep的subs数组中（收集依赖）
         dep.addSub(this)
       }
     }

@@ -158,6 +158,7 @@ export function defineReactive (
   customSetter?: ?Function,
   shallow?: boolean
 ) {
+  // 为每个属性手机依赖
   const dep = new Dep()
   // 获取 obj 的属性描述符
   const property = Object.getOwnPropertyDescriptor(obj, key)
@@ -183,6 +184,7 @@ export function defineReactive (
       // 否则直接赋值属性值
       const value = getter ? getter.call(obj) : val
       if (Dep.target) {
+        // 
         dep.depend()
         if (childOb) {
           childOb.dep.depend()
@@ -195,6 +197,7 @@ export function defineReactive (
     },
     set: function reactiveSetter (newVal) {
       const value = getter ? getter.call(obj) : val
+      // 如果新值等于旧值，或者新值和旧值等等与NaN就return
       /* eslint-disable no-self-compare */
       if (newVal === value || (newVal !== newVal && value !== value)) {
         return
