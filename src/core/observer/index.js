@@ -58,6 +58,7 @@ export class Observer {
       } else {
         copyAugment(value, arrayMethods, arrayKeys)
       }
+      // 为数组中的每一个对象创建一个observer实例
       this.observeArray(value)
     } else {
       this.walk(value)

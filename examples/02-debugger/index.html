@@ -8,12 +8,18 @@
   <script src="../../dist/vue.js"></script>
 </head>
 <body>
-  <div id="app">{{ msg }}</div>
+  <div id="app">
+    <h1>{{ msg }}</h1>
+    {{ msg }}
+    <hr>
+    {{ count }}
+  </div>
   <script>
     const vm = new Vue({
       el: '#app',
       data: {
         msg: 'Hello Vue',
+        count: 0,
       }
     });
   </script>
