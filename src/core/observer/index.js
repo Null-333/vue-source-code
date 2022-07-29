@@ -184,16 +184,19 @@ export function defineReactive (
       // 如果预定义的getter存在，则value等于getter调用的返回值
       // 否则直接赋值属性值
       const value = getter ? getter.call(obj) : val
+      // 如果存在当前依赖目标，即watcher对象，则建立依赖
       if (Dep.target) {
-        // 
         dep.depend()
+        // 如果子观察目标存在，建立子对象的依赖关系
         if (childOb) {
           childOb.dep.depend()
+          // 如果属性是数组，则特殊处理收集数组依赖对象
           if (Array.isArray(value)) {
             dependArray(value)
           }
         }
       }
+      // 返回属性值
       return value
     },
     set: function reactiveSetter (newVal) {

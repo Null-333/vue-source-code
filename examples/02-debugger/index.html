@@ -9,17 +9,19 @@
 </head>
 <body>
   <div id="app">
-    <h1>{{ msg }}</h1>
+    {{ arr }}
+    <!-- <h1>{{ msg }}</h1>
     {{ msg }}
     <hr>
-    {{ count }}
+    {{ count }} -->
   </div>
   <script>
     const vm = new Vue({
       el: '#app',
       data: {
-        msg: 'Hello Vue',
-        count: 0,
+        arr: [1, 2, 3],
+        // msg: 'Hello Vue',
+        // count: 0,
       }
     });
   </script>
