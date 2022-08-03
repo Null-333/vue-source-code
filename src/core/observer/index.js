@@ -251,11 +251,14 @@ export function set (target: Array<any> | Object, key: any, val: any): any {
     )
     return val
   }
+  // 如果ob不存在，target不是响应式对象就直接赋值
   if (!ob) {
     target[key] = val
     return val
   }
+  // 把key设置成响应式属性
   defineReactive(ob.value, key, val)
+  // 发送通知
   ob.dep.notify()
   return val
 }

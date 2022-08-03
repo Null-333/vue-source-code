@@ -10,6 +10,10 @@
 <body>
   <div id="app">
     {{ arr }}
+    <hr>
+    {{ person.name }}
+    <hr>
+    {{ person.age }}
     <!-- <h1>{{ msg }}</h1>
     {{ msg }}
     <hr>
@@ -19,6 +23,9 @@
     const vm = new Vue({
       el: '#app',
       data: {
+        person: {
+          name: 'helen',
+        },
         arr: [1, 2, 3],
         // msg: 'Hello Vue',
         // count: 0,
