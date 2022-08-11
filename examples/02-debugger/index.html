@@ -9,27 +9,41 @@
 </head>
 <body>
   <div id="app">
-    {{ arr }}
-    <hr>
-    {{ person.name }}
-    <hr>
-    {{ person.age }}
-    <!-- <h1>{{ msg }}</h1>
-    {{ msg }}
-    <hr>
-    {{ count }} -->
+    {{ reversedMessage }}
+    <hr />
+    {{ user.fullName }}
   </div>
   <script>
     const vm = new Vue({
       el: '#app',
       data: {
-        person: {
-          name: 'helen',
+        message: 'Hello Vue',
+        user: {
+          lastName: 'helen',
+          firstName: 'Yin',
+          fullName: '',
         },
-        arr: [1, 2, 3],
-        // msg: 'Hello Vue',
-        // count: 0,
-      }
+      },
+      computed: {
+        reversedMessage() {
+          return this.message.split(' ').reverse().join(' ');
+        }
+      },
+      watch: {
+        user: 'watchUser',
+        // {
+        //   handler: function (newVal, oldVal) {
+        //     this.user.fullName = `${this.user.firstName} ${this.user.lastName}`
+        //   },
+        //   deep: true,
+        //   immediate: true,
+        // },
+      },
+      methods: {
+        watchUser() {
+          console.log('====-45');
+        }
+      },
     });
   </script>
 </body>
