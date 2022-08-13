@@ -70,13 +70,16 @@ function createKeyToOldIdx (children, beginIdx, endIdx) {
 export function createPatchFunction (backend) {
   let i, j
   const cbs = {}
-
+  // modules: 节点的属性、事件、样式操作
+  // nodeOps： 节点操作
   const { modules, nodeOps } = backend
 
   for (i = 0; i < hooks.length; ++i) {
+    // cbs['update'] = []
     cbs[hooks[i]] = []
     for (j = 0; j < modules.length; ++j) {
       if (isDef(modules[j][hooks[i]])) {
+        // cbs['update'] = [updateAttr, updateClass, ...]
         cbs[hooks[i]].push(modules[j][hooks[i]])
       }
     }
@@ -696,7 +699,10 @@ export function createPatchFunction (backend) {
       return node.nodeType === (vnode.isComment ? 8 : 3)
     }
   }
-
+  // 函数科里化，让一个函数返回一个函数
+  // createPatchFunction({modules, nodeOps }) 传入平台相关的两个参数
+  // core中的createPatchFunction(backend), const { modules, nodeOps } = backend
+  // core中的方法与平台无关，传入两个参数后，可以在后面函数中使用这两个参数
   return function patch (oldVnode, vnode, hydrating, removeOnly) {
     if (isUndef(vnode)) {
       if (isDef(oldVnode)) invokeDestroyHook(oldVnode)
