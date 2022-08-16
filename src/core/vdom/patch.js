@@ -704,6 +704,7 @@ export function createPatchFunction (backend) {
   // core中的createPatchFunction(backend), const { modules, nodeOps } = backend
   // core中的方法与平台无关，传入两个参数后，可以在后面函数中使用这两个参数
   return function patch (oldVnode, vnode, hydrating, removeOnly) {
+    // 新的vnode不存在
     if (isUndef(vnode)) {
       if (isDef(oldVnode)) invokeDestroyHook(oldVnode)
       return
@@ -711,17 +712,20 @@ export function createPatchFunction (backend) {
 
     let isInitialPatch = false
     const insertedVnodeQueue = []
-
+    // 老得vnode不存在(当调用$mount方法，没有传入参数时，oldVnode是空)
     if (isUndef(oldVnode)) {
       // empty mount (likely as component), create new root element
       isInitialPatch = true
       createElm(vnode, insertedVnodeQueue)
     } else {
+      // 新的和老得vnode都存在，更新
       const isRealElement = isDef(oldVnode.nodeType)
       if (!isRealElement && sameVnode(oldVnode, vnode)) {
         // patch existing root node
+        // 更新操作，diff算法
         patchVnode(oldVnode, vnode, insertedVnodeQueue, null, null, removeOnly)
       } else {
+        // 如果是真实dom，说明是首次渲染，真实dom转为虚拟vnode
         if (isRealElement) {
           // mounting to a real element
           // check if this is server-rendered content and if we can perform
@@ -746,6 +750,7 @@ export function createPatchFunction (backend) {
           }
           // either not server-rendered, or hydration failed.
           // create an empty node and replace it
+          // 如果oldVnode
           oldVnode = emptyNodeAt(oldVnode)
         }
 
