@@ -556,23 +556,36 @@ export function createPatchFunction (backend) {
     if (isDef(data) && isPatchable(vnode)) {
       // 调用cbs中的update函数，操作节点的属性、样式、事件。。。
       for (i = 0; i < cbs.update.length; ++i) cbs.update[i](oldVnode, vnode)
+      // 用户自定义钩子
       if (isDef(i = data.hook) && isDef(i = i.update)) i(oldVnode, vnode)
     }
+    // 新节点没有文本 
     if (isUndef(vnode.text)) {
+      // 老节点和新节点都有，
+      // 对子节点进行diff操作，调用updateChildren
       if (isDef(oldCh) && isDef(ch)) {
         if (oldCh !== ch) updateChildren(elm, oldCh, ch, insertedVnodeQueue, removeOnly)
       } else if (isDef(ch)) {
+        // 新节点有子节点，老节点中没有
         if (process.env.NODE_ENV !== 'production') {
           checkDuplicateKeys(ch)
         }
+        // 先清空老节点中的内容，
+        // 然后为当前DOM节点加入节点
         if (isDef(oldVnode.text)) nodeOps.setTextContent(elm, '')
         addVnodes(elm, null, ch, 0, ch.length - 1, insertedVnodeQueue)
       } else if (isDef(oldCh)) {
+        // 老节点中有子节点，新节点中没有
+        // 直接删除老节点中的节点
         removeVnodes(oldCh, 0, oldCh.length - 1)
       } else if (isDef(oldVnode.text)) {
+        // 老节点有文本，新节点没有
+        // 清空老节点的文本
         nodeOps.setTextContent(elm, '')
       }
     } else if (oldVnode.text !== vnode.text) {
+      // 新老节点都有文本
+      // 直接替换文本
       nodeOps.setTextContent(elm, vnode.text)
     }
     if (isDef(data)) {
