@@ -550,10 +550,11 @@ export function createPatchFunction (backend) {
     if (isDef(data) && isDef(i = data.hook) && isDef(i = i.prepatch)) {
       i(oldVnode, vnode)
     }
-
+    // 核心功能
     const oldCh = oldVnode.children
     const ch = vnode.children
     if (isDef(data) && isPatchable(vnode)) {
+      // 调用cbs中的update函数，操作节点的属性、样式、事件。。。
       for (i = 0; i < cbs.update.length; ++i) cbs.update[i](oldVnode, vnode)
       if (isDef(i = data.hook) && isDef(i = i.update)) i(oldVnode, vnode)
     }
@@ -723,6 +724,8 @@ export function createPatchFunction (backend) {
     } else {
       // 新的和老得vnode都存在，更新
       const isRealElement = isDef(oldVnode.nodeType)
+      // 如果不是真实dom
+      // sameVnode => key和tag相同
       if (!isRealElement && sameVnode(oldVnode, vnode)) {
         // patch existing root node
         // 更新操作，diff算法
