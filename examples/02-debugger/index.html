@@ -9,42 +9,27 @@
 </head>
 <body>
   <div id="app">
-    {{ reversedMessage }}
-    <hr />
-    {{ user.fullName }}
+    <h1>Vue <span>模板编译过程</span></h1>
+    <p>{{msg}}</p>
+    <comp @myclick="handler"></comp>
   </div>
   <script>
+    Vue.component('comp', {
+      template: `<div>I'm a comp</div>`,
+    })
     const vm = new Vue({
       el: '#app',
       data: {
-        message: 'Hello Vue',
-        user: {
-          lastName: 'helen',
-          firstName: 'Yin',
-          fullName: '',
-        },
-      },
-      computed: {
-        reversedMessage() {
-          return this.message.split(' ').reverse().join(' ');
-        }
-      },
-      watch: {
-        user: 'watchUser',
-        // {
-        //   handler: function (newVal, oldVal) {
-        //     this.user.fullName = `${this.user.firstName} ${this.user.lastName}`
-        //   },
-        //   deep: true,
-        //   immediate: true,
-        // },
+        msg: 'Hello compiler',
       },
       methods: {
-        watchUser() {
-          console.log('====-45');
+        handler() {
+          console.log('====-test');
         }
       },
     });
+
+    console.log('====-32render', vm.$options.render);
   </script>
 </body>
 </html>

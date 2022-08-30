@@ -42,6 +42,7 @@ Vue.prototype.$mount = function (
     if (template) {
       if (typeof template === 'string') {
         if (template.charAt(0) === '#') {
+          // 获取对应dom对象的innerHTML
           template = idToTemplate(template)
           /* istanbul ignore if */
           if (process.env.NODE_ENV !== 'production' && !template) {
@@ -60,6 +61,7 @@ Vue.prototype.$mount = function (
         return this
       }
     } else if (el) {
+      // 如果没有template会将el的outerHTML作为template
       template = getOuterHTML(el)
     }
     if (template) {
@@ -67,7 +69,7 @@ Vue.prototype.$mount = function (
       if (process.env.NODE_ENV !== 'production' && config.performance && mark) {
         mark('compile')
       }
-
+      // 把template转为render函数
       const { render, staticRenderFns } = compileToFunctions(template, {
         outputSourceRange: process.env.NODE_ENV !== 'production',
         shouldDecodeNewlines,

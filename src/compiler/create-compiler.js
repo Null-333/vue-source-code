@@ -5,7 +5,11 @@ import { detectErrors } from './error-detector'
 import { createCompileToFunctionFn } from './to-function'
 
 export function createCompilerCreator (baseCompile: Function): Function {
+  // baseOptions平台相关的options
   return function createCompiler (baseOptions: CompilerOptions) {
+    // compile函数用来接收模板和用户传入的选项
+    // compile中会把平台相关的选项参数和用户传入的选项参数合并
+    // 然后在调用baseCompile，把合并后的选项参数传递给baseCompile
     function compile (
       template: string,
       options?: CompilerOptions
