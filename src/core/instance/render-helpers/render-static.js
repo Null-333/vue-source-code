@@ -20,6 +20,7 @@ export function renderStatic (
     null,
     this // for render fns generated for functional component templates
   )
+  // 将vnode表示为静态的
   markStatic(tree, `__static__${index}`, false)
   return tree
 }
