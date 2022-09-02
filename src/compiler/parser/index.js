@@ -80,6 +80,7 @@ export function parse (
   template: string,
   options: CompilerOptions
 ): ASTElement | void {
+  // 1. 解析options
   warn = options.warn || baseWarn
 
   platformIsPreTag = options.isPreTag || no
@@ -204,7 +205,7 @@ export function parse (
       )
     }
   }
-
+  // 对模板解析
   parseHTML(template, {
     warn,
     expectHTML: options.expectHTML,

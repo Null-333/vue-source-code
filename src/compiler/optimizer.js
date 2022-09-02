@@ -23,8 +23,12 @@ export function optimize (root: ?ASTElement, options: CompilerOptions) {
   isStaticKey = genStaticKeysCached(options.staticKeys || '')
   isPlatformReservedTag = options.isReservedTag || no
   // first pass: mark all non-static nodes.
+  // 标记静态节点
   markStatic(root)
   // second pass: mark static roots.
+  // 标记静态根节点
+  // 静态根节点就是，一个节点如果下面的所有节点都是静态节点，并且他的父节点是动态节点
+  // 那么他就是静态根节点
   markStaticRoots(root, false)
 }
 
@@ -107,9 +111,9 @@ function isStatic (node: ASTNode): boolean {
   return !!(node.pre || (
     !node.hasBindings && // no dynamic bindings
     !node.if && !node.for && // not v-if or v-for or v-else
-    !isBuiltInTag(node.tag) && // not a built-in
-    isPlatformReservedTag(node.tag) && // not a component
-    !isDirectChildOfTemplateFor(node) &&
+    !isBuiltInTag(node.tag) && // not a built-in 不是内置组件
+    isPlatformReservedTag(node.tag) && // not a component 不能是组件
+    !isDirectChildOfTemplateFor(node) && // 不能是v-for下的直接子节点
     Object.keys(node).every(isStaticKey)
   ))
 }

@@ -30,6 +30,7 @@ export class CodegenState {
     const isReservedTag = options.isReservedTag || no
     this.maybeComponent = (el: ASTElement) => !!el.component || !isReservedTag(el.tag)
     this.onceId = 0
+    // 一个模板中可能有多个静态根节点，所以这里用数组
     this.staticRenderFns = []
     this.pre = false
   }
@@ -54,10 +55,10 @@ export function generate (
 }
 
 export function genElement (el: ASTElement, state: CodegenState): string {
-  if (el.parent) {
+  // 如果父节点是v-pre标记的话，子节点也是静态的
+  if (el.parent) { 
     el.pre = el.pre || el.parent.pre
   }
-
   if (el.staticRoot && !el.staticProcessed) {
     return genStatic(el, state)
   } else if (el.once && !el.onceProcessed) {
@@ -78,6 +79,8 @@ export function genElement (el: ASTElement, state: CodegenState): string {
     } else {
       let data
       if (!el.plain || (el.pre && state.maybeComponent(el))) {
+        // 生成元素的指令、属性、事件等
+        // 处理各种指令，包括：genDirecives(model/text/html)
         data = genData(el, state)
       }
 
@@ -541,6 +544,7 @@ export function genText (text: ASTText | ASTExpression): string {
 }
 
 export function genComment (comment: ASTText): string {
+   // JSON.stringify(comment.text) 给字符串加上引号 hello -> "hello"
   return `_e(${JSON.stringify(comment.text)})`
 }
 

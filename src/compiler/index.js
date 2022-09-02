@@ -13,6 +13,7 @@ export const createCompiler = createCompilerCreator(function baseCompile (
   options: CompilerOptions
 ): CompiledResult {
   // 将模板编译成 ast 抽象语法树
+  // 抽象语法树：以树形的方式描述代码结构 
   const ast = parse(template.trim(), options)
   if (options.optimize !== false) {
     // 优化抽象语法树
